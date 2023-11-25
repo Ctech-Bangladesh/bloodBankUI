@@ -294,12 +294,17 @@ compatibility-first-td {
 .compatibility-footer {
   margin-top: 170px;
 }
+.report-nb{
+  border: 1px solid black;
+  padding: 10px;
+  height: 135px!important;
+}
 @media print {
   .Form-Banner-compatibility-modal {
     margin-top: 30px;
   }
   .report-body{
-    height: 550px;
+    height: 400px;
   }
   .compatibility-table {
     display: flex;
