@@ -286,7 +286,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
                 <div className="col-6">
                   <div className="report-nb">
                     <span>
-                      বিঃদ্রঃ ১০ (দশ) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না
+                      বিঃদ্রঃ ৭ (সাত) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না
                       করলে অন্য রোগীকে বরাদ্ধ করা হবে। 
                     </span>
                     <p className="text-right"> ...............কর্তৃপক্ষ</p>
