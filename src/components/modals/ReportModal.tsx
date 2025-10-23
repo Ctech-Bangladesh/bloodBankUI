@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 // import BloodStockService from "../../services/BloodStockService";
-import "../../static/scss/print.scss";
+import '../../static/scss/print.scss';
 import FormBanner from "../../static/images/hospitalBanner.png";
 // Importing toastify module
 import { toast } from "react-toastify";
@@ -88,7 +88,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
             <div className="text-left ml-1 pl-1">
               {" "}
               <h4 className="font-weight-bold text-center mt-4">
-                Cross-Matching / Grouping report
+                Blood Grouping and Patient Screening Tests
               </h4>
               <div className="text-right mr-4">
                 <p>
@@ -119,8 +119,8 @@ class ReportModal extends React.Component<TableModalProps, any> {
                         {this.state.patient?.gender === "M"
                           ? "Male"
                           : this.state.patient?.gender === "F"
-                          ? "Female"
-                          : "Other"}
+                            ? "Female"
+                            : "Other"}
                       </span>
                     </td>
                   </tr>
@@ -173,10 +173,10 @@ class ReportModal extends React.Component<TableModalProps, any> {
                 )}
 
                 {modalData.bloodHbvTest ||
-                modalData.bloodHivTest ||
-                modalData.bloodHcvTest ||
-                modalData.bloodSyphilisTest ||
-                modalData.bloodMalariaTest ? (
+                  modalData.bloodHivTest ||
+                  modalData.bloodHcvTest ||
+                  modalData.bloodSyphilisTest ||
+                  modalData.bloodMalariaTest ? (
                   <div className="row  mx-2 mt-5 ">
                     <div className="col-4 extra-label font-weight-bold">
                       <span>Result of Screening Test:</span>
@@ -189,7 +189,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
                             <td>
                               <span
                                 className={
-                                  modalData.bloodHbvTest === "Reactive"
+                                  modalData.bloodHbvTest === "Positive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
@@ -199,24 +199,6 @@ class ReportModal extends React.Component<TableModalProps, any> {
                             </td>
                           </tr>
                         )}
-                        {modalData.bloodHivTest && (
-                          <tr>
-                            <td className="font-weight-bold">HIV 1&2:</td>
-                            <td>
-                              {" "}
-                              <span
-                                className={
-                                  modalData.bloodHivTest === "Reactive"
-                                    ? "text-danger"
-                                    : "text-success"
-                                }
-                              >
-                                {modalData.bloodHivTest}
-                              </span>
-                            </td>
-                          </tr>
-                        )}
-
                         {modalData.bloodHcvTest && (
                           <tr>
                             <td className="font-weight-bold">HCV:</td>
@@ -224,7 +206,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               {" "}
                               <span
                                 className={
-                                  modalData.bloodHcvTest === "Reactive"
+                                  modalData.bloodHcvTest === "Positive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
@@ -241,7 +223,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               {" "}
                               <span
                                 className={
-                                  modalData.bloodSyphilisTest === "Reactive"
+                                  modalData.bloodSyphilisTest === "Positive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
@@ -251,7 +233,24 @@ class ReportModal extends React.Component<TableModalProps, any> {
                             </td>
                           </tr>
                         )}
-                        {modalData.bloodMalariaTest && (
+                        {modalData.bloodHivTest && (
+                          <tr>
+                            <td className="font-weight-bold">HIV:</td>
+                            <td>
+                              {" "}
+                              <span
+                                className={
+                                  modalData.bloodHivTest === "Positive"
+                                    ? "text-danger"
+                                    : "text-success"
+                                }
+                              >
+                                {modalData.bloodHivTest}
+                              </span>
+                            </td>
+                          </tr>
+                        )}
+                        {/* {modalData.bloodMalariaTest && (
                           <tr>
                             <td className="font-weight-bold">MP:</td>
                             <td>
@@ -266,57 +265,58 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               </span>
                             </td>
                           </tr>
-                        )}
+                        )} */}
                       </table>
                     </div>
                   </div>
                 ) : (
                   <></>
                 )}
-                <div className="row mx-2  mt-5">
-                    <div className="col-4"><b>Cross-Matching:</b></div>
-                    <div className="col-8  serology-table-two "> <table className="w-25">
-                        <tr>
-                          <td className="font-weight-bold">Compatible</td> 
-                        </tr>
-                      </table></div>
-                </div>
+                {/* <div className="row mx-2  mt-5">
+                  <div className="col-4"><b>Cross-Matching:</b></div>
+                  <div className="col-8  serology-table-two "> 
+                    <table className="w-25">
+                    <tr>
+                      <td className="font-weight-bold">Compatible</td>
+                    </tr>
+                  </table></div>
+                </div> */}
               </div>
-              <div className="row mt-5 mx-4">
+              {/* <div className="row mt-5 mx-4">
                 <div className="col-6">
                   <div className="report-nb">
                     <span>
                       বিঃদ্রঃ ৭ (সাত) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না
-                      করলে অন্য রোগীকে বরাদ্ধ করা হবে। 
+                      করলে অন্য রোগীকে বরাদ্ধ করা হবে।
                     </span>
                     <p className="text-right"> ...............কর্তৃপক্ষ</p>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="report-nb">
-                  <span>
-                    রেফ্রিজারেটর হতে বের করার ৩০ মিনিটের মধ্যে অবশ্যই রক্ত
-                    পরিসঞ্চালন করতে হবে। অন্যথায় উক্ত রক্ত ব্লাড ব্যাংকে ফেরত
-                    পাঠাবেন।
-                  </span>
-                  <p className="text-right"> ...............কর্তৃপক্ষ</p>
+                    <span>
+                      রেফ্রিজারেটর হতে বের করার ৩০ মিনিটের মধ্যে অবশ্যই রক্ত
+                      পরিসঞ্চালন করতে হবে। অন্যথায় উক্ত রক্ত ব্লাড ব্যাংকে ফেরত
+                      পাঠাবেন।
+                    </span>
+                    <p className="text-right"> ...............কর্তৃপক্ষ</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="row mt-5 text-center">
                 <div className="col-6">
-                  <p>
-                    ....................................................................................
+                  <p className="text-dark compatibility-signature mb-4 mx-2 mt-5">
+                    .......................................................................
                   </p>
-                  <p className="text-dark compatibility-signature">
+                  <p className="text-dark compatibility-signature mx-2">
                     MT Signature
                   </p>
                 </div>
                 <div className="col-6">
-                  <p>
-                    .........................................................
+                  <p className="text-dark compatibility-signature mb-4 ml-1 mt-5">
+                    .......................................................................
                   </p>
-                  <p className="text-dark compatibility-signature">
+                  <p className="text-dark compatibility-signature mx-2">
                     Lab In-Charge/Duty Doctor
                   </p>
                 </div>

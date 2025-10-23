@@ -215,6 +215,7 @@ class AddPhysicalSuitabilityTest extends React.Component<
                   </label>
                 </div>
                 <div className="col-8">
+                  <>
                   <input
                     className="form-control"
                     type="number"
@@ -224,6 +225,9 @@ class AddPhysicalSuitabilityTest extends React.Component<
 
                     onChange={this.changeHandler}
                   />
+                  <p className="m-0 text-right small" > <strong>Reference Value :</strong> Male : 13.0 - 18.0 gm/dl
+                    and Female: 11.5 - 16.5 gm/dl</p>
+                    </>
                 </div>
               </div>
 

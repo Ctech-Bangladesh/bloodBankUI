@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../layout/Loader";
 import { authenticationService } from "../../services/AuthenticationService";
 import { history } from "../helper/history";
 // toast-configuration method, 
@@ -24,7 +25,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -87,9 +88,11 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
         //rows
         let filterData = entries.filter((el: any) => el.donorSelection !== "Rejected").reverse();
         filterData.map((entry: any) => dataFinal.push(entry));
-        const allData = filterData.map((el: any) => {return {
-          donorName: el.bloodDonor.donorName, ...el
-        }})
+        const allData = filterData.map((el: any) => {
+          return {
+            donorName: el.bloodDonor.donorName, ...el
+          }
+        })
         this.setState({
           isLoaded: true,
           items: allData,
@@ -232,7 +235,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
         </div>
       );
     } else if (!isLoaded) {
-      return <div className="text-center font-weight-bold">Loading...</div>;
+      return <Loader size="large" />;
     } else {
       return (
         <div className="container-fluid m-1">

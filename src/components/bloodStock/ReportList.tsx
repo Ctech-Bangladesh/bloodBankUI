@@ -24,7 +24,7 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -49,7 +49,6 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
       .then((res) => {
         let keys = [
           "bloodSerologyId",
-    
           "bloodHivTest",
           "bloodHbvTest",
           "bloodHcvTest",
@@ -169,11 +168,11 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
         selector: "bloodSyphilisTest",
         sortable: true,
       },
-      {
-        name: `${translate("bloodMalariaTest")}`,
-        selector: "bloodMalariaTest",
-        sortable: true,
-      },
+      // {
+      //   name: `${translate("bloodMalariaTest")}`,
+      //   selector: "bloodMalariaTest",
+      //   sortable: true,
+      // },
       {
         name: `${translate("action")}`,
         sortable: false,

@@ -24,7 +24,7 @@ class CompatibilityList extends React.Component<CompatibilityListProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,

@@ -11,6 +11,7 @@ import { history } from "../helper/history";
 import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../layout/Loader";
 import { authenticationService } from "../../services/AuthenticationService";
 // toast-configuration method, 
 // it is compulsory method.
@@ -25,7 +26,7 @@ class BloodStock extends React.Component<BloodStockProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -149,7 +150,7 @@ class BloodStock extends React.Component<BloodStockProps, any> {
     } = this.state;
     const { translate } = this.props;
     const columns: any = [
-  
+
       {
         name: `${translate("donorName")}`,
         selector: "donorName",
@@ -213,6 +214,7 @@ class BloodStock extends React.Component<BloodStockProps, any> {
         ignoreRowClick: true,
         allowOverflow: true,
         button: false,
+        fixed: 'right',
         cell: (record: any) => {
           return (
             <Fragment>
@@ -255,7 +257,7 @@ class BloodStock extends React.Component<BloodStockProps, any> {
         </div>
       );
     } else if (!isLoaded) {
-      return <div className="text-center font-weight-bold">Loading...</div>;
+      return <Loader size="large" />;
     } else {
       return (
         <div className="container-fluid m-1">
@@ -319,25 +321,28 @@ class BloodStock extends React.Component<BloodStockProps, any> {
                     </div>
                   </form>
                 </div>
-                <DataTable
-                  className="table table-stripped table-hover"
-                  columns={columns}
-                  data={this.search(items)}
-                  pagination
-                  pointerOnHover
-                  highlightOnHover
-                  paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-                  striped={true}
-                  responsive
-                  noHeader
-                  onRowClicked={(dataFinal: any) => {
-                    const modalData = dataFinal;
-                    this.setState({
-                      modalData: modalData,
-                      show: true,
-                    });
-                  }}
-                />
+                <div className="data-table-wrapper">
+                  <DataTable
+                    className="table table-stripped table-hover"
+                    columns={columns}
+                    data={this.search(items)}
+                    pagination
+                    pointerOnHover
+                    highlightOnHover
+                    paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+                    striped={true}
+                    fixedHeader
+                    fixedHeaderScrollHeight="400px"
+                    noHeader
+                    onRowClicked={(dataFinal: any) => {
+                      const modalData = dataFinal;
+                      this.setState({
+                        modalData: modalData,
+                        show: true,
+                      });
+                    }}
+                  />
+                </div>
                 <Modal
                   show={show}
                   onHide={this.closeModal}
