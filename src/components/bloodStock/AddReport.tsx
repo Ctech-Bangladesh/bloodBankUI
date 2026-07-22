@@ -46,14 +46,13 @@ class AddReport extends React.Component<CompatibilityProps, any> {
         /*
         for tracking users who is creating or updating
         */
-        if (authenticationService.currentUserValue !== undefined
-            || authenticationService.currentUserValue !== null) {
+        if (authenticationService.currentUserValue) {
             this.currentUser = authenticationService.currentUserValue
         }
 
         const id = sessionStorage.getItem("bloodSerologyId");
         if (id) {
-            this.getSerologyTestById(parseInt(id));
+            this.getSerologyTestById(parseInt(id, 10));
             this.setState({
                 createdBy: null,
                 updatedBy: this.currentUser
@@ -77,9 +76,11 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                 }));
                 this.setState({ showOptions: true, selectOptions: options });
             }
-          
+
+        }).catch(() => {
+            toast.error("Patient search failed", { position: toast.POSITION.BOTTOM_RIGHT });
         });
-     
+
     }
     handleChange(selectedOption: any) {
         if (selectedOption !== null) {
@@ -144,6 +145,8 @@ class AddReport extends React.Component<CompatibilityProps, any> {
             } else {
                 toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
             }
+        }).catch(() => {
+            toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
 
@@ -169,6 +172,8 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                     patientId: res?.data?.patient,
                 });
             }
+        }).catch(() => {
+            toast.error("Failed to load the serology report", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
     render() {
@@ -178,20 +183,9 @@ class AddReport extends React.Component<CompatibilityProps, any> {
             <div>
                 <div className="m-1 p-1">
                     <h2 className="text-info text-center">
-                        {sessionStorage.getItem("bloodSerologyId") ? (
-                            <>
-                                {" "}
-                                <h2 className="text-info text-center">
-                                    Edit Report
-                                </h2>
-                            </>
-                        ) : (
-                            <>
-                                <h2 className="text-info text-center">
-                                    Add Report
-                                </h2>
-                            </>
-                        )}
+                        {sessionStorage.getItem("bloodSerologyId")
+                            ? "Edit Report"
+                            : "Add Report"}
                     </h2>
                     <div className="container">
                         <form className="form" onSubmit={this.submitHandler}>
@@ -445,7 +439,7 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                                 value={translate("commonUpdate")}
                                             />
                                             <input
-                                                type="cancel"
+                                                type="button"
                                                 className="btn btn-danger m-1"
                                                 onClick={() => {
                                                     history.push("/report/list");

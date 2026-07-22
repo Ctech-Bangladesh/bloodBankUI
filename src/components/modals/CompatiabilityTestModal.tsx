@@ -49,6 +49,8 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
         typeOfDonor: res?.data?.bloodDonor?.typeOfDonor,
       });
 
+    }).catch(() => {
+      toast.error("Failed to load blood bag information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
     if (
       this.state.modalData.bloodGrouping === "Non-Compatible" ||
@@ -76,6 +78,8 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
     DonorService.getPatientInformation(this.state.modalData.patientId).then((res) => {
       const result = res.data;
       this.setState({ patient: result[0] });
+    }).catch(() => {
+      toast.error("Failed to load patient information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   printDiv() {

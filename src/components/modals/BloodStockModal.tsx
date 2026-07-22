@@ -40,8 +40,7 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
   }
 
   componentDidMount() {
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
   }
@@ -76,6 +75,8 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
       if (res.status === 226) {
         toast.error(`Blood bag : ${res.data} is not availablle in the stock`, { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch((err: any) => {
+      toast.error(err?.message || "Failed to update the blood stock status", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   formatDate(data: any) {

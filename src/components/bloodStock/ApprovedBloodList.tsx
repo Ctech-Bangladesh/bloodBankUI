@@ -25,7 +25,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            isLoaded: true,
+            isLoaded: false,
             error: null,
             items: [],
             show: false,
@@ -40,8 +40,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
         /*
       for tracking users who is creating or updating
       */
-        if (authenticationService.currentUserValue !== undefined
-            || authenticationService.currentUserValue !== null) {
+        if (authenticationService.currentUserValue) {
             this.currentUser = authenticationService.currentUserValue
         }
         this.loadBloodStockList();
@@ -72,6 +71,8 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                         toast.error(err.message, { position: toast.POSITION.BOTTOM_RIGHT });
                     });
             }
+        }).catch((err: any) => {
+            toast.error(err?.message || "Blood bag was not found", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     };
 
@@ -119,7 +120,9 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                     items: dataFinal.reverse(),
                 });
             })
-            .catch((err: any) => console.log(err));
+            .catch((err: any) => {
+        this.setState({ isLoaded: true, error: err });
+      });
     }
 
     search = (rows: any) => {
@@ -224,7 +227,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                                     )
                                     if (confirmBox) {
                                         const id = record.bloodStockTracingId;
-                                        this.deleteBloodStock(parseInt(id));
+                                        this.deleteBloodStock(parseInt(id, 10));
                                     }
                                 }}
                             >

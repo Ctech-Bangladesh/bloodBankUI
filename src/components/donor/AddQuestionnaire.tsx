@@ -71,13 +71,12 @@ class AddQuestionnaire extends React.Component<QuestionnaireProps, any> {
     /*
     for tracking users who is creating or updating
     */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     const id = sessionStorage.getItem('quesId');
     if (id) {
-      this.getQuestionnaireById(parseInt(id));
+      this.getQuestionnaireById(parseInt(id, 10));
       this.setState({
         createdBy: null,
         updatedBy: this.currentUser
@@ -98,6 +97,8 @@ class AddQuestionnaire extends React.Component<QuestionnaireProps, any> {
         question: question,
         concernFor: concernFor,
       });
+    }).catch(() => {
+      toast.error("Failed to load the questionnaire", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -115,6 +116,8 @@ class AddQuestionnaire extends React.Component<QuestionnaireProps, any> {
       else {
         toast.error("Please add valid and non duplicate question", { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch(() => {
+      toast.error("Please add valid and non duplicate question", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -184,7 +187,7 @@ class AddQuestionnaire extends React.Component<QuestionnaireProps, any> {
                       value={translate("commonUpdate")}
                     />
                     <input
-                      type="cancel"
+                      type="button"
                       className="btn btn-danger m-1"
                       onClick={() => {
                         history.push("/questionnaire/list");

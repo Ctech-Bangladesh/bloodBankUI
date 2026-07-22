@@ -90,13 +90,12 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
     /*
    for tracking users who is creating or updating
    */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     const id = sessionStorage.getItem("donorId");
     if (id) {
-      this.getDonorInfoById(parseInt(id));
+      this.getDonorInfoById(parseInt(id, 10));
       this.setState({
         createdBy: null,
         updatedBy: this.currentUser
@@ -201,7 +200,9 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
           { showOptions: true, }
         )
       }
-    }); 
+    }).catch(() => {
+      toast.error("Patient search failed", { position: toast.POSITION.BOTTOM_RIGHT });
+    });
   }
  
   handleChange(selectedOption: any) {
@@ -254,6 +255,8 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
       } else {
         toast.error("Please add valid and non duplicate values", { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch(() => {
+      toast.error("Please add valid and non duplicate values", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -273,6 +276,8 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
       this.setState({
         questionList: questionArr,
       });
+    }).catch(() => {
+      toast.error("Failed to load the questionnaire list", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -337,6 +342,8 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
           showPatient: false,
         });
       }
+    }).catch(() => {
+      toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   questionCheck= (event: any)=>{
@@ -355,20 +362,9 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
     return (
       <div className="container-fluid mt-1 pb-4">
         <h2 className="text-info text-center">
-          {sessionStorage.getItem("donorId") ? (
-            <>
-              {" "}
-              <h2 className="text-info text-center">
-                {translate("editDonorPageHeader")}
-              </h2>
-            </>
-          ) : (
-            <>
-              <h2 className="text-info text-center">
-                {translate("addDonorPageHeader")}
-              </h2>
-            </>
-          )}
+          {sessionStorage.getItem("donorId")
+            ? translate("editDonorPageHeader")
+            : translate("addDonorPageHeader")}
         </h2>
         <div className="container p-1">
           <form className="form" onSubmit={this.submitHandler}>
@@ -662,7 +658,6 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
                       pattern="yyyy-MM-dd"
                       name="donorLastDonatedDate"
                       id="donorLastDonatedDate"
-                      defaultValue=""
                       value={this.state.donorLastDonatedDate}
                       onChange={this.changeHandler}
                     />
@@ -719,11 +714,10 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
                 </h4>
               </div>
               {this.state.questionShow && <>{questionList?.map((item: any, i: any) => (
-                <div className="col-3 float-right">
+                <div className="col-3 float-right" key={item.id ?? i}>
                   <div className="row form-group mt-0 pt-0">
                     <div
                       className="col-2 text-right float-right mr-0 pr-0"
-                      key={i}
                     >
                       <Checkbox
                         className="form-control mr-0 pr-0"
@@ -756,7 +750,7 @@ class AddDonorInfo extends React.Component<DonorInfoProps, any> {
                   </div>
                   <div className="col-2 float-right text-right">
                     <input
-                      type="cancel"
+                      type="button"
                       className="btn btn-danger m-1"
                       onClick={() => {
                         history.push("/donor/list");

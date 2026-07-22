@@ -17,7 +17,7 @@ class DonorConsentForm extends Component<consentFormProps, any> {
   componentDidMount() {
     const donorPhysicalSuitabilityId = sessionStorage.getItem("donorPhysicalSuitabilityId");
     if (donorPhysicalSuitabilityId) {
-      this.getTestData(parseInt(donorPhysicalSuitabilityId));
+      this.getTestData(parseInt(donorPhysicalSuitabilityId, 10));
       sessionStorage.removeItem("donorPhysicalSuitabilityId");
     }
   }
@@ -40,6 +40,8 @@ class DonorConsentForm extends Component<consentFormProps, any> {
       this.setState({
         formData: testData,
       });
+    }).catch((err: any) => {
+      this.setState({ error: err });
     });
   }
 

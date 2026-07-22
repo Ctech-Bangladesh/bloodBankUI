@@ -86,21 +86,22 @@ class AddPhysicalSuitabilityTest extends React.Component<
     /*
    for tracking users who is creating or updating
    */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     const id = sessionStorage.getItem("donorPhysicalSuitabilityId");
     const donorId = sessionStorage.getItem("donorId");
     if (donorId) {
-      DonorService.getBloodDonorById(parseInt(donorId)).then(res => {
+      DonorService.getBloodDonorById(parseInt(donorId, 10)).then(res => {
         this.setState({
           donorName: res?.data?.donorName,
         })
+      }).catch(() => {
+        toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
     }
     if (id) {
-      this.getPhysicalTestInfoById(parseInt(id));
+      this.getPhysicalTestInfoById(parseInt(id, 10));
       this.setState({
         createdBy: null,
         updatedBy: this.currentUser
@@ -130,11 +131,15 @@ class AddPhysicalSuitabilityTest extends React.Component<
         donorBloodGroupRhesus: res.data.donorBloodGroupRhesus,
         donorSelection: res.data.donorSelection,
       });
-      DonorService.getBloodDonorById(parseInt(res?.data?.bloodDonor?.donorId,)).then(res => {
+      DonorService.getBloodDonorById(parseInt(res?.data?.bloodDonor?.donorId, 10)).then(res => {
         this.setState({
           donorName: res?.data?.donorName,
         })
+      }).catch(() => {
+        toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
+    }).catch(() => {
+      toast.error("Failed to load the physical suitability test", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -152,6 +157,8 @@ class AddPhysicalSuitabilityTest extends React.Component<
       } else {
         toast.error("Please add valid and non duplicate values", { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch(() => {
+      toast.error("Please add valid and non duplicate values", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -400,7 +407,7 @@ class AddPhysicalSuitabilityTest extends React.Component<
                   </div>
                   <div className="col-3 m-1 p-1 float-right text-right">
                     <input
-                      type="cancel"
+                      type="button"
                       className="form-control btn btn-danger m-1"
                       onClick={() => {
                         history.push("/donorPhysicalSuitability/test/list");

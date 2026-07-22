@@ -54,14 +54,13 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
     /*
     for tracking users who is creating or updating
     */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
 
     const donorId = sessionStorage.getItem("donorId");
     if (donorId) {
-      DonorService.getBloodDonorById(parseInt(donorId)).then((res) => {
+      DonorService.getBloodDonorById(parseInt(donorId, 10)).then((res) => {
         if (res?.data?.patient) {
           BloodStockService.getPatientBloodGroupById(res.data.patientId).then((res) => {
             const result = res.data;
@@ -69,15 +68,19 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
               patientBloodGroup: result.patientBloodGroup,
               patientBloodGroupRhesus: result.patientBloodGroupRhesus,
             })
+          }).catch(() => {
+            toast.error("Failed to load the patient's blood group", { position: toast.POSITION.BOTTOM_RIGHT });
           });
           this.setState({ patientId: res.data.patientId, patientName: res.data.patient });
         }
+      }).catch(() => {
+        toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
     }
 
     const id = sessionStorage.getItem("bloodCompatibilityId");
     if (id) {
-      this.getCompatibilityTestById(parseInt(id));
+      this.getCompatibilityTestById(parseInt(id, 10));
       this.setState({
         createdBy: null,
         updatedBy: this.currentUser
@@ -97,6 +100,8 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
           bloodGroupRhesus: res.data.bloodGroupRhesus,
           bloodBagId: bloodBagId,
         });
+      }).catch(() => {
+        toast.error("Failed to load blood bag information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
     }
   }
@@ -115,6 +120,8 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
           { showOptions: true, }
         )
       }
+    }).catch(() => {
+      toast.error("Patient search failed", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   handleChange(selectedOption: any) {
@@ -134,6 +141,8 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
             showOptions: false
           })
         }
+      }).catch(() => {
+        toast.error("Failed to load the patient's blood group", { position: toast.POSITION.BOTTOM_RIGHT });
       });
       this.setState({ showOptions: false, patientId: selectedOption.value, patientName: selectedOption.label });
     }
@@ -212,6 +221,8 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
       } else {
         toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch(() => {
+      toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -225,7 +236,9 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
             bloodBagId: res.data.bloodBagId,
           });
         }
-      );
+      ).catch(() => {
+        toast.error("Failed to load blood bag information", { position: toast.POSITION.BOTTOM_RIGHT });
+      });
       this.setState({
         bloodCompatibilityId: res.data.bloodCompatibilityId,
         bloodBagId: res.data.bloodBagId,
@@ -249,6 +262,8 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
           patientId: res?.data?.patientId,
         });
       }
+    }).catch(() => {
+      toast.error("Failed to load the compatibility test", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   render() {
@@ -257,20 +272,9 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
     return (
       <div className="container-fluid m-1 p-1">
         <h2 className="text-info text-center">
-          {sessionStorage.getItem("bloodCompatibilityId") ? (
-            <>
-              {" "}
-              <h2 className="text-info text-center">
-                {translate("editCompatibilityHeader")}
-              </h2>
-            </>
-          ) : (
-            <>
-              <h2 className="text-info text-center">
-                {translate("compatibilityTest")}
-              </h2>
-            </>
-          )}
+          {sessionStorage.getItem("bloodCompatibilityId")
+            ? translate("editCompatibilityHeader")
+            : translate("compatibilityTest")}
         </h2>
         <div className="container">
           <form className="form" onSubmit={this.submitHandler}>
@@ -685,7 +689,7 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
                       value={translate("commonUpdate")}
                     />
                     <input
-                      type="cancel"
+                      type="button"
                       className="btn btn-danger m-1"
                       onClick={() => {
                         history.push("/blood/compatibility/test/list");

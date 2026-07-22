@@ -39,6 +39,8 @@ class ReportModal extends React.Component<TableModalProps, any> {
         DonorService.getPatientInformation(this.state.modalData.patientId).then((res) => {
             const result = res.data;
             this.setState({ patient: result[0] });
+        }).catch(() => {
+            toast.error("Failed to load patient information", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
     printDiv() {
