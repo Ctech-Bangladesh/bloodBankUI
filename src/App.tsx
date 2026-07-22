@@ -18,6 +18,7 @@ import AddCompatibilityTest from "./components/bloodStock/AddCompatibilityTest";
 import CompatibilityList from "./components/bloodStock/CompatibilityList";
 import DonorConsentForm from "./components/forms/DonorConsentForm";
 import Cookies from 'universal-cookie';
+import { authenticationService } from "./services/AuthenticationService";
 import ReportList from "./components/bloodStock/ReportList";
 import AddReport from "./components/bloodStock/AddReport";
 import ApprovedBloodList from "./components/bloodStock/ApprovedBloodList";
@@ -29,8 +30,20 @@ const App: FC = () => {
     username: cookies.get('bahmni.user'),
     sessionId: cookies.get('session_id')
   });
-  localStorage.setItem('currentUser', state.username);
-  localStorage.setItem('sessionId', state.sessionId);
+  // Only persist real values; unconditional writes used to store the literal
+  // string "undefined" when the Bahmni cookies were absent.
+  if (state.username) {
+    authenticationService.setCurrentUser(state.username);
+  } else {
+    // No Bahmni user cookie means the clinical session is gone; the http
+    // interceptor will redirect to login on the next API response.
+    authenticationService.logout();
+  }
+  if (state.sessionId) {
+    localStorage.setItem('sessionId', state.sessionId);
+  } else {
+    localStorage.removeItem('sessionId');
+  }
   return (
     <div className="App">
       <div className="d-flex App-header p-2">
