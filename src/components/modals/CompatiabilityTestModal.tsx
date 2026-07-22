@@ -3,7 +3,8 @@ import { Button, Modal } from "react-bootstrap";
 import BloodStockService from "../../services/BloodStockService";
 import "../../static/scss/print.scss";
 import { history } from "../helper/history";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
+import { formatScreeningResult } from "../helper/screeningResult";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -123,13 +124,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
           style={{ margin: "0", padding: "0" }}
         >
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                className="Form-Banner-compatibility-modal"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner className="Form-Banner-compatibility-modal" />
             <div className="text-left ml-1 pl-1">
               {" "}
               <h3 className="font-weight-bold text-center text-danger ">
@@ -191,60 +186,60 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                       <td className="font-weight-bold">HBsAg:</td>
                       <td><span
                         className={
-                          modalData.bloodHbvTest === "Reactive"
+                          modalData.bloodHbvTest === "Reactive" || modalData.bloodHbvTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHbvTest}
+                        {formatScreeningResult(modalData.bloodHbvTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">HIV 1&2:</td>
                       <td>   <span
                         className={
-                          modalData.bloodHivTest === "Reactive"
+                          modalData.bloodHivTest === "Reactive" || modalData.bloodHivTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHivTest}
+                        {formatScreeningResult(modalData.bloodHivTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">HCV:</td>
                       <td>  <span
                         className={
-                          modalData.bloodHcvTest === "Reactive"
+                          modalData.bloodHcvTest === "Reactive" || modalData.bloodHcvTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHcvTest}
+                        {formatScreeningResult(modalData.bloodHcvTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">SYPHILIS:</td>
                       <td>    <span
                         className={
-                          modalData.bloodSyphilisTest === "Reactive"
+                          modalData.bloodSyphilisTest === "Reactive" || modalData.bloodSyphilisTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodSyphilisTest}
+                        {formatScreeningResult(modalData.bloodSyphilisTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">MP:</td>
                       <td><span
                         className={
-                          modalData.bloodMalariaTest === "Reactive"
+                          modalData.bloodMalariaTest === "Reactive" || modalData.bloodMalariaTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodMalariaTest}
+                        {formatScreeningResult(modalData.bloodMalariaTest)}
                       </span></td>
                     </tr>
                   </table>

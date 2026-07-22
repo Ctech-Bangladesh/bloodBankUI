@@ -2,7 +2,8 @@ import React from "react";
 import { Button, Modal } from "react-bootstrap";
 // import BloodStockService from "../../services/BloodStockService";
 import '../../static/scss/print.scss';
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
+import { formatScreeningResult } from "../helper/screeningResult";
 // Importing toastify module
 import { toast } from "react-toastify";
 // Import toastify css file
@@ -80,13 +81,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
           style={{ margin: "0", padding: "0" }}
         >
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                className="Form-Banner-compatibility-modal"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner className="Form-Banner-compatibility-modal" />
             <div className="text-left ml-1 pl-1">
               {" "}
               <h4 className="font-weight-bold text-center mt-4">
@@ -191,12 +186,12 @@ class ReportModal extends React.Component<TableModalProps, any> {
                             <td>
                               <span
                                 className={
-                                  modalData.bloodHbvTest === "Positive"
+                                  modalData.bloodHbvTest === "Positive" || modalData.bloodHbvTest === "Reactive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
                               >
-                                {modalData.bloodHbvTest}
+                                {formatScreeningResult(modalData.bloodHbvTest)}
                               </span>
                             </td>
                           </tr>
@@ -208,12 +203,12 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               {" "}
                               <span
                                 className={
-                                  modalData.bloodHcvTest === "Positive"
+                                  modalData.bloodHcvTest === "Positive" || modalData.bloodHcvTest === "Reactive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
                               >
-                                {modalData.bloodHcvTest}
+                                {formatScreeningResult(modalData.bloodHcvTest)}
                               </span>
                             </td>
                           </tr>
@@ -225,12 +220,12 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               {" "}
                               <span
                                 className={
-                                  modalData.bloodSyphilisTest === "Positive"
+                                  modalData.bloodSyphilisTest === "Positive" || modalData.bloodSyphilisTest === "Reactive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
                               >
-                                {modalData.bloodSyphilisTest}
+                                {formatScreeningResult(modalData.bloodSyphilisTest)}
                               </span>
                             </td>
                           </tr>
@@ -242,12 +237,12 @@ class ReportModal extends React.Component<TableModalProps, any> {
                               {" "}
                               <span
                                 className={
-                                  modalData.bloodHivTest === "Positive"
+                                  modalData.bloodHivTest === "Positive" || modalData.bloodHivTest === "Reactive"
                                     ? "text-danger"
                                     : "text-success"
                                 }
                               >
-                                {modalData.bloodHivTest}
+                                {formatScreeningResult(modalData.bloodHivTest)}
                               </span>
                             </td>
                           </tr>
@@ -263,7 +258,7 @@ class ReportModal extends React.Component<TableModalProps, any> {
                                     : "text-success"
                                 }
                               >
-                                {modalData.bloodMalariaTest}
+                                {formatScreeningResult(modalData.bloodMalariaTest)}
                               </span>
                             </td>
                           </tr>
