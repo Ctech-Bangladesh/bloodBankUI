@@ -304,31 +304,6 @@ class AddReport extends React.Component<CompatibilityProps, any> {
 
                             <div className="row form-group">
                                 <div className="col-4 text-right">
-                                    <label className="font-weight-bold" htmlFor="bloodHivTest">
-                                        {translate("bloodHivTest")}
-
-                                    </label>
-                                </div>
-                                <div className="col-8">
-                                    <select
-                                        className="form-control"
-                                        name="bloodHivTest"
-                                        id="bloodHivTest"
-                                        value={this.state.bloodHivTest}
-
-                                        onChange={this.changeHandler}
-                                    >
-                                        <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-4 text-right">
                                     <label className="font-weight-bold" htmlFor="bloodHbvTest">
                                         {translate("bloodHbvTest")}
 
@@ -344,34 +319,9 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-4 text-right">
-                                    <label className="font-weight-bold" htmlFor="bloodHcvTest">
-                                        {translate("bloodHcvTest")}
-
-                                    </label>
-                                </div>
-                                <div className="col-8">
-                                    <select
-                                        className="form-control"
-                                        name="bloodHcvTest"
-                                        id="bloodHcvTest"
-                                        value={this.state.bloodHcvTest}
-
-                                        onChange={this.changeHandler}
-                                    >
-                                        <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
                                         </option>
                                     </select>
                                 </div>
@@ -394,15 +344,64 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
                                         </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div className="row form-group">
+                                <div className="col-4 text-right">
+                                    <label className="font-weight-bold" htmlFor="bloodHcvTest">
+                                        {translate("bloodHcvTest")}
+
+                                    </label>
+                                </div>
+                                <div className="col-8">
+                                    <select
+                                        className="form-control"
+                                        name="bloodHcvTest"
+                                        id="bloodHcvTest"
+                                        value={this.state.bloodHcvTest}
+
+                                        onChange={this.changeHandler}
+                                    >
+                                        <option value="">{translate("commonSelect")}</option>
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-4 text-right">
+                                    <label className="font-weight-bold" htmlFor="bloodHivTest">
+                                        {translate("bloodHivTest")}
+
+                                    </label>
+                                </div>
+                                <div className="col-8">
+                                    <select
+                                        className="form-control"
+                                        name="bloodHivTest"
+                                        id="bloodHivTest"
+                                        value={this.state.bloodHivTest}
+
+                                        onChange={this.changeHandler}
+                                    >
+                                        <option value="">{translate("commonSelect")}</option>
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            {/* <div className="row form-group">
                                 <div className="col-4 text-right">
                                     <label className="font-weight-bold" htmlFor="bloodMalariaTest">
                                         {translate("bloodMalariaTest")}
@@ -419,13 +418,13 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("Negative")}
                                         </option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="row pb-5 form-group">
                                 <div className="col-4 text-right"></div>

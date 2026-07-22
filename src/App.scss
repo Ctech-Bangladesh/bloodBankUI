@@ -1,8 +1,9 @@
 // Import Bootstrap and its default variables
-@import "~bootstrap/scss/bootstrap.scss";
+@use "~bootstrap/scss/bootstrap.scss";
 
 // Override default variables before the import
 $body-bg: rgb(240, 240, 240);
+
 .App {
   text-align: center;
 }
@@ -11,6 +12,24 @@ $body-bg: rgb(240, 240, 240);
   height: 10vmin;
   pointer-events: visible;
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.spinner-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.spinner-lg {
+  width: 4rem;
+  height: 4rem;
+}
+
 .mainlayout {
   position: relative;
   display: inline-flexbox;
@@ -19,11 +38,13 @@ $body-bg: rgb(240, 240, 240);
   align-items: center;
   align-content: center;
 }
-.alert-message p{
-  font-size: 20px!important;
+
+.alert-message p {
+  font-size: 20px !important;
   margin: 0px !important;
-  padding: 30px 50px!important;
+  padding: 30px 50px !important;
 }
+
 // @media (prefers-reduced-motion: no-preference) {
 //   .App-logo {
 //     animation: App-logo-spin infinite 10s alternate-reverse;
@@ -39,6 +60,7 @@ $body-bg: rgb(240, 240, 240);
   font-size: calc(9px + 2vmin);
   color: white;
 }
+
 .navText {
   color: whitesmoke;
   padding: 10px;
@@ -47,18 +69,66 @@ $body-bg: rgb(240, 240, 240);
   font-weight: bolder;
   text-align: center;
 }
+
 .navText:hover {
   color: aquamarine;
   transition: all;
 }
+
 .App-link {
   color: #61dafb;
+}
+
+// Custom styles for DataTable with fixed header and action column
+.data-table-wrapper {
+  .rdt_Table {
+    background-color: white;
+  }
+
+  .rdt_TableHead {
+    position: sticky !important;
+    top: 0;
+    z-index: 2;
+    background-color: #f8f9fa;
+  }
+
+  .rdt_TableHeadRow {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: bold;
+  }
+
+  .rdt_TableBody {
+    overflow-x: auto;
+  }
+
+  .rdt_TableRow {
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .rdt_TableCell,
+  .rdt_TableCol {
+    &[data-column-id="action"] {
+      position: sticky !important;
+      right: 0;
+      background-color: inherit;
+      z-index: 1;
+      box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Ensure header action column stays on top
+  .rdt_TableCol[data-column-id="action"] {
+    z-index: 3;
+    background-color: #f8f9fa;
+  }
 }
 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -80,9 +150,11 @@ $body-bg: rgb(240, 240, 240);
   color: whitesmoke;
   font-weight: bold;
 }
+
 .footer a:hover {
   color: wheat;
 }
+
 @media only screen and (max-width: 1300px) {
   .header-title {
     font-size: 20px;

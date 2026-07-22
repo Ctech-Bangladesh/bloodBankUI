@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
 import { authenticationService } from "../../services/AuthenticationService";
+import Loader from "../layout/Loader";
 // toast-configuration method, 
 // it is compulsory method.
 toast.configure();
@@ -171,7 +172,7 @@ for tracking users who is creating or updating
         </div>
       );
     } else if (!isLoaded) {
-      return <div className="text-center font-weight-bold">Loading...</div>;
+      return <Loader size="large" />;
     } else {
       return (
         <div className="container-fluid m-1">

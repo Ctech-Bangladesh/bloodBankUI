@@ -338,7 +338,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                 </div>
               </div>
               <div style={{marginTop:'120px'}} className="text-center ">
-                <span><b>বিঃ দ্রঃ ১০ (দশ) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না করিলে অন্য রোগীকে বরাদ্দ করা হবে।</b></span>
+                <span><b>বিঃ দ্রঃ ৭ (সাত) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না করিলে অন্য রোগীকে বরাদ্দ করা হবে।</b></span>
                 <br />
                 <span style={{fontSize:'13px'}}><b>Powered By : Crystal Technology Bangladesh Ltd.</b></span>
               </div>

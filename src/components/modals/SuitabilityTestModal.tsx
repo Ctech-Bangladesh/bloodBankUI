@@ -97,11 +97,15 @@ class SuitabilityTestModal extends React.Component<TableModalProps, any> {
               </span>{" "}
               : {modalData.bloodDonor.donorMobileNo}
             </p>
-            <p>
+            <p className="d-flex justify-content-between">
               <span className="font-weight-bold">
-                {translate("hemoglobin")}
-              </span>{" "}
-              : {modalData.donorHemoglobin}
+              {translate("hemoglobin")}
+              <span className="font-weight-normal">: {modalData.donorHemoglobin}</span>
+              </span>
+              
+              <span className="text-right small align-self-center">
+                <strong>Reference Value:</strong> Male: 13.0 - 18.0 gm/dl <br /> Female: 11.5 - 16.5 gm/dl
+              </span>
             </p>
             <p>
               <span className="font-weight-bold">{translate("weight")}</span> :{" "}

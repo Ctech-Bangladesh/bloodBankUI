@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import DataTable from "react-data-table-component";
-import {faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Link } from "react-router-dom";
 import BloodStockService from "../../services/BloodStockService";
@@ -11,6 +11,7 @@ import { history } from "../helper/history";
 import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../layout/Loader";
 import { authenticationService } from "../../services/AuthenticationService";
 // toast-configuration method, 
 // it is compulsory method.
@@ -245,7 +246,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                 </div>
             );
         } else if (!isLoaded) {
-            return <div className="text-center font-weight-bold">Loading...</div>;
+            return <Loader size="large" />;
         } else {
             return (
                 <div className="container-fluid m-1">
