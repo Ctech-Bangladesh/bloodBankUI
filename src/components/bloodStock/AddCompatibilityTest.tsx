@@ -287,7 +287,7 @@ class AddCompatibilityTest extends React.Component<CompatibilityProps, any> {
               </div>
               <div className="col-4">
                 <input
-                  className="form-control"
+                  className="form-control blood-bag-id-value"
                   type="text"
                   name="bloodBagId"
                   id="bloodBagId"

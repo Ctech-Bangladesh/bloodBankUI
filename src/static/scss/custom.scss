@@ -230,6 +230,20 @@ h1 {
 .Form-Banner-compatibility-modal {
   width: 100%;
 }
+
+// Blood Bag ID: bold + a distinct color so the identifier stands out on
+// screen and on printed reports/slips.
+.blood-bag-id-label {
+  font-weight: 700;
+}
+.blood-bag-id-value {
+  font-weight: 700;
+  color: #0b3d91;
+}
+input.blood-bag-id-value {
+  font-weight: 700;
+  color: #0b3d91 !important;
+}
 .compatibility-table {
   display: flex;
   justify-content: center;
@@ -259,6 +273,11 @@ compatibility-first-td {
     padding: 0px 10px;
     width: 465px;
   }
+  // Keep "Reactive (Positive)" / "Non-Reactive (Negative)" on one line
+  // instead of wrapping across the narrow value column.
+  tr td:last-child {
+    white-space: nowrap;
+  }
 }
 
 .serology-table-two {
@@ -269,6 +288,9 @@ compatibility-first-td {
     padding: 0px 10px;
     width: 465px;
   }
+  tr td:last-child {
+    white-space: nowrap;
+  }
 }
 .compatibility-table-three {
   table,
@@ -278,6 +300,9 @@ compatibility-first-td {
     padding: 0px 10px;
     width: 465px;
   }
+  tr td:last-child {
+    white-space: nowrap;
+  }
 }
 .compatibility-table-four {
   table,
@@ -286,6 +311,9 @@ compatibility-first-td {
     border-collapse: collapse;
     padding: 10px;
     width: 465px;
+  }
+  tr td:last-child {
+    white-space: nowrap;
   }
 }
 .compatibility-signature {

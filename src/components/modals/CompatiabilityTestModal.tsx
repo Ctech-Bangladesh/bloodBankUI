@@ -5,6 +5,7 @@ import "../../static/scss/print.scss";
 import { history } from "../helper/history";
 import PrintBanner from "../layout/PrintBanner";
 import { formatScreeningResult } from "../helper/screeningResult";
+import { formatCompatibilityResult } from "../helper/compatibilityResult";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -127,10 +128,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
             <PrintBanner className="Form-Banner-compatibility-modal" />
             <div className="text-left ml-1 pl-1">
               {" "}
-              <h3 className="font-weight-bold text-center text-danger ">
-                Department of Transfusion Medicine
-              </h3>
-              <h4 style={{marginTop:'-5px'}} className="font-weight-bold text-center ">
+              <h4 className="font-weight-bold text-center ">
                 {translate("crossMatchingReport")}
                 {/* ({translate("id")} :
                 {modalData.bloodCompatibilityId}) */}
@@ -161,7 +159,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                     <td colSpan={1}><b>Patient Lab No:</b> {title}</td>
                     <td colSpan={2}> <span className=" font-weight-bold">Donor Name: </span><span>{this.state.donorName}</span></td>
                     
-                    <td colSpan={2}> <span className=" font-weight-bold">Donor Bag No: </span><span>{modalData.bloodBagId}</span></td>
+                    <td colSpan={2}> <span className="blood-bag-id-label">Donor Bag No: </span><span className="blood-bag-id-value">{modalData.bloodBagId}</span></td>
                   </tr>
                   <tr >
                     <td colSpan={1}> <span className="pl-2 font-weight-bold">Patient Blood Group:</span></td>
@@ -260,7 +258,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.atRoomTemp}
+                        {formatCompatibilityResult(modalData.atRoomTemp)}
                       </span></td>
                     </tr>
                     <tr>
@@ -272,7 +270,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.at37ByICT}
+                        {formatCompatibilityResult(modalData.at37ByICT)}
                       </span></td>
                     </tr>
                     <tr>
@@ -284,7 +282,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.coombsTest}
+                        {formatCompatibilityResult(modalData.coombsTest)}
                       </span></td>
                     </tr>
 

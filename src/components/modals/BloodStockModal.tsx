@@ -131,7 +131,7 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
           <Modal.Body>
             <PrintBanner width="100%" height="200px" className="Form-Banner header" />
             <h4 className="font-weight-bold text-center pb-4">
-              {translate("collection")} ({translate("bagID")}: {modalData.bloodBagId})
+              {translate("collection")} ({translate("bagID")}: <span className="blood-bag-id-value">{modalData.bloodBagId}</span>)
             </h4>
             <p><span className="font-weight-bold">{translate("date")}</span> :{" "}
               {this.formatDate(this.state.currentDateTime)} </p>
@@ -170,10 +170,10 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
               : {modalData.sourceOfBlood}
             </p>
             <p>
-              <span className="font-weight-bold">
+              <span className="blood-bag-id-label">
                 {translate("bloodBagId")}
               </span>{" "}
-              : {modalData.bloodBagId}
+              : <span className="blood-bag-id-value">{modalData.bloodBagId}</span>
             </p>
             <p>
               <span className="font-weight-bold">
