@@ -333,6 +333,8 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
               <div style={{marginTop:'120px'}} className="text-center ">
                 <span><b>বিঃ দ্রঃ ৭ (সাত) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না করিলে অন্য রোগীকে বরাদ্দ করা হবে।</b></span>
                 <br />
+                <span><b>রেফ্রিজারেটর হতে বের করার ৩০ মিনিটের মধ্যে অবশ্যই রক্ত পরিসঞ্চালন করতে হবে। অন্যথায় উক্ত রক্ত ব্লাড ব্যাংকে ফেরত পাঠাবেন। ......কর্তৃপক্ষ।</b></span>
+                <br />
                 <span style={{fontSize:'13px'}}><b>Powered By : Crystal Technology Bangladesh Ltd.</b></span>
               </div>
             </div>
