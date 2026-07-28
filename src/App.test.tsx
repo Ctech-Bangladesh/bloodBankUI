@@ -1,9 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import LangState from './context/lang';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders the application header title', () => {
+  render(
+    <LangState>
+      <App />
+    </LangState>
+  );
+  const title = screen.getByText(/Department of Transfusion Medicine/i);
+  expect(title).toBeInTheDocument();
 });

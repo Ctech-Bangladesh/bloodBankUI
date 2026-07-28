@@ -24,7 +24,7 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -37,8 +37,7 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
     /*
     for tracking users who is creating or updating
     */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     this.getComtibilityList();
@@ -49,7 +48,6 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
       .then((res) => {
         let keys = [
           "bloodSerologyId",
-    
           "bloodHivTest",
           "bloodHbvTest",
           "bloodHcvTest",
@@ -77,7 +75,9 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
           items: dataFinal.reverse(),
         });
       })
-      .catch((err: any) => console.log(err));
+      .catch((err: any) => {
+        this.setState({ isLoaded: true, error: err });
+      });
   }
 
   filterData(dataArr: any, keys: any) {
@@ -169,11 +169,11 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
         selector: "bloodSyphilisTest",
         sortable: true,
       },
-      {
-        name: `${translate("bloodMalariaTest")}`,
-        selector: "bloodMalariaTest",
-        sortable: true,
-      },
+      // {
+      //   name: `${translate("bloodMalariaTest")}`,
+      //   selector: "bloodMalariaTest",
+      //   sortable: true,
+      // },
       {
         name: `${translate("action")}`,
         sortable: false,
@@ -200,7 +200,7 @@ class ReportList extends React.Component<CompatibilityListProps, any> {
                   )
                   if (confirmBox) {
                     const id = record.bloodSerologyId;
-                    this.deleteSerologyTest(parseInt(id));
+                    this.deleteSerologyTest(parseInt(id, 10));
                   }
                 }}
               >

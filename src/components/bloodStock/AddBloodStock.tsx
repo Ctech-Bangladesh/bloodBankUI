@@ -47,8 +47,7 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
     /*
     for tracking users who is creating or updating
     */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
 
@@ -58,11 +57,13 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
     const bloodGroupRhesus = sessionStorage.getItem("bloodGroupRhesus");
     const donorId = sessionStorage.getItem("bloodDonorId");
     if (donorId) {
-      DonorService.getBloodDonorById(parseInt(donorId)).then(res => {
+      DonorService.getBloodDonorById(parseInt(donorId, 10)).then(res => {
         this.setState({
           donorName: res?.data?.donorName,
           patientName: res?.data?.patient,
         })
+      }).catch(() => {
+        toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
     }
     this.setState({
@@ -70,7 +71,7 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
       bloodGroupRhesus: bloodGroupRhesus
     });
     if (id) {
-      this.getBloodStockById(parseInt(id));
+      this.getBloodStockById(parseInt(id, 10));
       this.setState({
         createdBy: null,
         updatedBy: this.currentUser
@@ -107,6 +108,8 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
           bloodBagId: res.data.bloodBagId,
           allowSave: true,
         })
+      }).catch(() => {
+        toast.error("Failed to load blood bag information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
     }
   }
@@ -114,7 +117,7 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
   changeHandler = (event: any) => {
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.name === "sourceOfBlood") {
-      const donorId = parseInt(this.state.bloodDonorId);
+      const donorId = parseInt(this.state.bloodDonorId, 10);
       if (event.target.value === "NITOR") {
         if (donorId) {
           BloodStockService.getNextBloodBagId(event.target.value).then(res => {
@@ -125,6 +128,8 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
               allowSave: true,
               inputReadOnly: true
             });
+          }).catch(() => {
+            toast.error("Failed to generate the next blood bag id", { position: toast.POSITION.BOTTOM_RIGHT });
           });
         } else {
           toast.warn("Donor Id is not available. Blood Source is not valid", { position: toast.POSITION.BOTTOM_RIGHT });
@@ -145,8 +150,10 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
             allowSave: true,
             inputReadOnly: true
           });
+        }).catch(() => {
+          toast.error("Failed to generate the next blood bag id", { position: toast.POSITION.BOTTOM_RIGHT });
         });
-      } else if (event.target.value === "Outsource" || "Private Blood Bank" || "Voluntary Organization" || "Other Govt. Hospital") {
+      } else if (["Outsource", "Private Blood Bank", "Voluntary Organization", "Other Govt. Hospital"].includes(event.target.value)) {
         this.setState({
           bloodBagId: "",
           stockStatus: "Available",
@@ -167,11 +174,11 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
   submitHandler = (event: any) => {
     event.preventDefault();
     const id = sessionStorage.getItem("bloodStockTracingId") || this.state.bloodStockTracingId;
-    const donorId = parseInt(this.state?.bloodDonorId);
+    const donorId = parseInt(this.state?.bloodDonorId, 10);
     const user = this.currentUser;
     if (id) {
       this.dataConfig = {
-        bloodStockTracingId: parseInt(id),
+        bloodStockTracingId: parseInt(id, 10),
         bloodDonor: {
           donorId: donorId,
         },
@@ -252,6 +259,8 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
       } else {
         toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch(() => {
+      toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -272,12 +281,16 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
         stockStatus: res.data.stockStatus,
         bloodBagId: res.data.bloodBagId,
       });
-      DonorService.getBloodDonorById(parseInt(res?.data?.bloodDonor?.donorId,)).then(res => {
+      DonorService.getBloodDonorById(parseInt(res?.data?.bloodDonor?.donorId, 10)).then(res => {
         this.setState({
           donorName: res?.data?.donorName,
           patientName: res?.data?.patient,
         })
+      }).catch(() => {
+        toast.error("Failed to load donor information", { position: toast.POSITION.BOTTOM_RIGHT });
       });
+    }).catch(() => {
+      toast.error("Failed to load blood stock information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -422,7 +435,7 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
               </div>
               <div className="col-4">
                 <input
-                  className="form-control"
+                  className="form-control blood-bag-id-value"
                   type="text"
                   name="bloodBagId"
                   id="bloodBagId"
@@ -520,7 +533,7 @@ class AddBloodStock extends React.Component<BloodStockProps, any> {
                       value={translate("commonUpdate")}
                     />
                     <input
-                      type="cancel"
+                      type="button"
                       className="btn btn-danger m-1"
                       onClick={() => {
                         history.push("/blood/stock/list");

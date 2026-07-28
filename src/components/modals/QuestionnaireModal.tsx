@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import "../../static/scss/print.scss";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -51,15 +51,7 @@ class QuestionnaireModal extends React.Component<TableModalProps, any> {
         <div id="printSection" className="print-container" style={{ margin: "0", padding: "0" }}>
           <div className="page-break" />
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                width="100%"
-                height="200px"
-                className="Form-Banner header"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner width="100%" height="200px" className="Form-Banner header" />
             <h4 className="text-center">{translate("questionnaire")}</h4>
             <p><span className="font-weight-bold">{translate("question")}</span> : {modalData.question}</p>
             <p><span className="font-weight-bold">{translate("concernFor")}</span> : {modalData.concernFor}</p>

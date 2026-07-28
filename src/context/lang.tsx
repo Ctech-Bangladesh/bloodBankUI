@@ -68,7 +68,9 @@ const LangState: FC<LangStateProps> = ({ children }) => {
       langData = bn;
     }
 
-    return langData[key];
+    // Fall back to the key itself so missing translations stay visible
+    // instead of rendering blank labels.
+    return langData[key] ?? key;
   }
 
   return(

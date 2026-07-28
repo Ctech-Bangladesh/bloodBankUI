@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../layout/Loader";
 import { authenticationService } from "../../services/AuthenticationService";
 import { history } from "../helper/history";
 // toast-configuration method, 
@@ -24,7 +25,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -37,8 +38,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
     /*
   for tracking users who is creating or updating
   */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     this.loadTests();
@@ -50,6 +50,8 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
         toast.success("The test is deleted successfully", { position: toast.POSITION.BOTTOM_RIGHT });
         history.push("/donorPhysicalSuitability/test/list");
       }
+    }).catch((err: any) => {
+      toast.error(err?.message || "Failed to delete the test", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -87,15 +89,19 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
         //rows
         let filterData = entries.filter((el: any) => el.donorSelection !== "Rejected").reverse();
         filterData.map((entry: any) => dataFinal.push(entry));
-        const allData = filterData.map((el: any) => {return {
-          donorName: el.bloodDonor.donorName, ...el
-        }})
+        const allData = filterData.map((el: any) => {
+          return {
+            donorName: el.bloodDonor.donorName, ...el
+          }
+        })
         this.setState({
           isLoaded: true,
           items: allData,
         });
       })
-      .catch((err: any) => console.log(err));
+      .catch((err: any) => {
+        this.setState({ isLoaded: true, error: err });
+      });
   }
 
   filterData(dataArr: any, keys: any) {
@@ -214,7 +220,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
                   );
                   if (confirmBox) {
                     const id = record.donorPhysicalSuitabilityId;
-                    this.deleteSuitabilityTest(parseInt(id));
+                    this.deleteSuitabilityTest(parseInt(id, 10));
                   }
                 }}
               >
@@ -232,7 +238,7 @@ class PhysicalSuitability extends React.Component<PhysicalSuitabilityProps, any>
         </div>
       );
     } else if (!isLoaded) {
-      return <div className="text-center font-weight-bold">Loading...</div>;
+      return <Loader size="large" />;
     } else {
       return (
         <div className="container-fluid m-1">

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
 import { authenticationService } from "../../services/AuthenticationService";
+import Loader from "../layout/Loader";
 // toast-configuration method, 
 // it is compulsory method.
 toast.configure();
@@ -23,7 +24,7 @@ class DonorMedicalAssessment extends React.Component<DonorMedicalAssessmentProps
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -35,8 +36,7 @@ class DonorMedicalAssessment extends React.Component<DonorMedicalAssessmentProps
     /*
 for tracking users who is creating or updating
 */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     this.getDonorList();
@@ -71,6 +71,8 @@ for tracking users who is creating or updating
         isLoaded: true,
         items: datafinal.reverse(),
       });
+    }).catch((err: any) => {
+      this.setState({ isLoaded: true, error: err });
     });
   }
 
@@ -170,7 +172,7 @@ for tracking users who is creating or updating
         </div>
       );
     } else if (!isLoaded) {
-      return <div className="text-center font-weight-bold">Loading...</div>;
+      return <Loader size="large" />;
     } else {
       return (
         <div className="container-fluid m-1">

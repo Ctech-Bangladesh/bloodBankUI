@@ -24,7 +24,7 @@ class AssessmentQuestionnaire extends React.Component<AssessmentQuestionnairePro
   constructor(props: any) {
     super(props);
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       error: null,
       items: [],
       show: false,
@@ -37,8 +37,7 @@ class AssessmentQuestionnaire extends React.Component<AssessmentQuestionnairePro
     /*
   for tracking users who is creating or updating
   */
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
     this.getQuestionnaireList();
@@ -50,6 +49,8 @@ class AssessmentQuestionnaire extends React.Component<AssessmentQuestionnairePro
         toast.success("The Questionnaire is deleted successfully", { position: toast.POSITION.BOTTOM_RIGHT });
         history.push("/questionnaire/list");
       }
+    }).catch((err: any) => {
+      toast.error(err?.message || "Failed to delete the questionnaire", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
 
@@ -70,6 +71,8 @@ class AssessmentQuestionnaire extends React.Component<AssessmentQuestionnairePro
         isLoaded: true,
         items: datafinal,
       });
+    }).catch((err: any) => {
+      this.setState({ isLoaded: true, error: err });
     });
   }
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import "../../static/scss/print.scss";
 import { history } from "../helper/history";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -68,15 +68,7 @@ class SuitabilityTestModal extends React.Component<TableModalProps, any> {
         >
           <div className="page-break" />
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                width="100%"
-                height="200px"
-                className="Form-Banner header"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner width="100%" height="200px" className="Form-Banner header" />
             <h4 className="text-center mb-3">
               <span className="font-weight-bold">
                 {translate("physicalTestResult")}</span>
@@ -97,11 +89,15 @@ class SuitabilityTestModal extends React.Component<TableModalProps, any> {
               </span>{" "}
               : {modalData.bloodDonor.donorMobileNo}
             </p>
-            <p>
+            <p className="d-flex justify-content-between">
               <span className="font-weight-bold">
-                {translate("hemoglobin")}
-              </span>{" "}
-              : {modalData.donorHemoglobin}
+              {translate("hemoglobin")}
+              <span className="font-weight-normal">: {modalData.donorHemoglobin}</span>
+              </span>
+              
+              <span className="text-right small align-self-center">
+                <strong>Reference Value:</strong> Male: 13.0 - 18.0 gm/dl <br /> Female: 11.5 - 16.5 gm/dl
+              </span>
             </p>
             <p>
               <span className="font-weight-bold">{translate("weight")}</span> :{" "}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DonorService from "../../services/DonorService";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../../components/layout/PrintBanner";
 import "../../static/scss/print.scss";
 
 interface consentFormProps {
@@ -17,7 +17,7 @@ class DonorConsentForm extends Component<consentFormProps, any> {
   componentDidMount() {
     const donorPhysicalSuitabilityId = sessionStorage.getItem("donorPhysicalSuitabilityId");
     if (donorPhysicalSuitabilityId) {
-      this.getTestData(parseInt(donorPhysicalSuitabilityId));
+      this.getTestData(parseInt(donorPhysicalSuitabilityId, 10));
       sessionStorage.removeItem("donorPhysicalSuitabilityId");
     }
   }
@@ -40,6 +40,8 @@ class DonorConsentForm extends Component<consentFormProps, any> {
       this.setState({
         formData: testData,
       });
+    }).catch((err: any) => {
+      this.setState({ error: err });
     });
   }
 
@@ -60,15 +62,7 @@ class DonorConsentForm extends Component<consentFormProps, any> {
           className="container-fluid print-container "
           id="printSectionConsentForm"
         >
-          <div className="formBanner">
-            <img
-              src={FormBanner}
-              width="100%"
-              height="250px"
-              className="Form-Banner header"
-              alt="Banner"
-            />
-          </div>
+          <PrintBanner width="100%" height="250px" className="Form-Banner header" />
           <div className="formBody">
             <h3 className="text-dark py-3 font-weight-bold text-center">
               {translate("medicalAssessment")}

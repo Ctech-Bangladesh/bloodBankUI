@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { FC } from "react";
 import { LangContext } from "../../context/lang";
 import { authenticationService } from "../../services/AuthenticationService";
+import { getPrintWithBanner, setPrintWithBanner } from "../helper/printSettings";
 import "../../static/scss/custom.scss";
 const openmrsUrl = process.env.REACT_APP_API_URL+"/bahmni/home";
 interface HeaderProps {
@@ -22,6 +23,12 @@ const Header: FC<HeaderProps> = ({ fixed, transparent }) => {
   const { state: { language }, dispatch: { setLanguage, translate } } = useContext(LangContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [username] = useState(authenticationService.currentUserValue);
+  const [printWithBanner, setPrintWithBannerState] = useState(getPrintWithBanner());
+
+  const handlePrintBannerToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPrintWithBanner(event.target.checked);
+    setPrintWithBannerState(event.target.checked);
+  };
   const dropdownEl = useRef<HTMLUListElement>(null);
 
   const handleClickOutside = useCallback((e) => {
@@ -171,6 +178,17 @@ const Header: FC<HeaderProps> = ({ fixed, transparent }) => {
                 <a className="text-success" href={openmrsUrl}>
                   OpenMRS Home
                 </a>
+              </li>
+              <li className="p-1">
+                <label className="text-secondary m-0" style={{ whiteSpace: "nowrap", cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    className="mr-1"
+                    checked={printWithBanner}
+                    onChange={handlePrintBannerToggle}
+                  />
+                  {translate("printWithBanner")}
+                </label>
               </li>
             </ul>
           </li>

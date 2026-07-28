@@ -3,7 +3,9 @@ import { Button, Modal } from "react-bootstrap";
 import BloodStockService from "../../services/BloodStockService";
 import "../../static/scss/print.scss";
 import { history } from "../helper/history";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
+import { formatScreeningResult } from "../helper/screeningResult";
+import { formatCompatibilityResult } from "../helper/compatibilityResult";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -49,6 +51,8 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
         typeOfDonor: res?.data?.bloodDonor?.typeOfDonor,
       });
 
+    }).catch(() => {
+      toast.error("Failed to load blood bag information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
     if (
       this.state.modalData.bloodGrouping === "Non-Compatible" ||
@@ -76,6 +80,8 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
     DonorService.getPatientInformation(this.state.modalData.patientId).then((res) => {
       const result = res.data;
       this.setState({ patient: result[0] });
+    }).catch(() => {
+      toast.error("Failed to load patient information", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   printDiv() {
@@ -119,19 +125,10 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
           style={{ margin: "0", padding: "0" }}
         >
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                className="Form-Banner-compatibility-modal"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner className="Form-Banner-compatibility-modal" />
             <div className="text-left ml-1 pl-1">
               {" "}
-              <h3 className="font-weight-bold text-center text-danger ">
-                Department of Transfusion Medicine
-              </h3>
-              <h4 style={{marginTop:'-5px'}} className="font-weight-bold text-center ">
+              <h4 className="font-weight-bold text-center ">
                 {translate("crossMatchingReport")}
                 {/* ({translate("id")} :
                 {modalData.bloodCompatibilityId}) */}
@@ -162,7 +159,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                     <td colSpan={1}><b>Patient Lab No:</b> {title}</td>
                     <td colSpan={2}> <span className=" font-weight-bold">Donor Name: </span><span>{this.state.donorName}</span></td>
                     
-                    <td colSpan={2}> <span className=" font-weight-bold">Donor Bag No: </span><span>{modalData.bloodBagId}</span></td>
+                    <td colSpan={2}> <span className="blood-bag-id-label">Donor Bag No: </span><span className="blood-bag-id-value">{modalData.bloodBagId}</span></td>
                   </tr>
                   <tr >
                     <td colSpan={1}> <span className="pl-2 font-weight-bold">Patient Blood Group:</span></td>
@@ -187,60 +184,60 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                       <td className="font-weight-bold">HBsAg:</td>
                       <td><span
                         className={
-                          modalData.bloodHbvTest === "Reactive"
+                          modalData.bloodHbvTest === "Reactive" || modalData.bloodHbvTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHbvTest}
+                        {formatScreeningResult(modalData.bloodHbvTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">HIV 1&2:</td>
                       <td>   <span
                         className={
-                          modalData.bloodHivTest === "Reactive"
+                          modalData.bloodHivTest === "Reactive" || modalData.bloodHivTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHivTest}
+                        {formatScreeningResult(modalData.bloodHivTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">HCV:</td>
                       <td>  <span
                         className={
-                          modalData.bloodHcvTest === "Reactive"
+                          modalData.bloodHcvTest === "Reactive" || modalData.bloodHcvTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodHcvTest}
+                        {formatScreeningResult(modalData.bloodHcvTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">SYPHILIS:</td>
                       <td>    <span
                         className={
-                          modalData.bloodSyphilisTest === "Reactive"
+                          modalData.bloodSyphilisTest === "Reactive" || modalData.bloodSyphilisTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodSyphilisTest}
+                        {formatScreeningResult(modalData.bloodSyphilisTest)}
                       </span></td>
                     </tr>
                     <tr>
                       <td className="font-weight-bold">MP:</td>
                       <td><span
                         className={
-                          modalData.bloodMalariaTest === "Reactive"
+                          modalData.bloodMalariaTest === "Reactive" || modalData.bloodMalariaTest === "Positive"
                             ? "text-danger"
                             : "text-success"
                         }
                       >
-                        {modalData.bloodMalariaTest}
+                        {formatScreeningResult(modalData.bloodMalariaTest)}
                       </span></td>
                     </tr>
                   </table>
@@ -261,7 +258,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.atRoomTemp}
+                        {formatCompatibilityResult(modalData.atRoomTemp)}
                       </span></td>
                     </tr>
                     <tr>
@@ -273,7 +270,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.at37ByICT}
+                        {formatCompatibilityResult(modalData.at37ByICT)}
                       </span></td>
                     </tr>
                     <tr>
@@ -285,7 +282,7 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
 
                         }
                       >
-                        {modalData.coombsTest}
+                        {formatCompatibilityResult(modalData.coombsTest)}
                       </span></td>
                     </tr>
 
@@ -334,7 +331,9 @@ class CompatiabilityTestModal extends React.Component<TableModalProps, any> {
                 </div>
               </div>
               <div style={{marginTop:'120px'}} className="text-center ">
-                <span><b>বিঃ দ্রঃ ১০ (দশ) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না করিলে অন্য রোগীকে বরাদ্দ করা হবে।</b></span>
+                <span><b>বিঃ দ্রঃ ৭ (সাত) দিনের মধ্যে রক্তের ব্যাগ ব্যবহার/গ্রহণ না করিলে অন্য রোগীকে বরাদ্দ করা হবে।</b></span>
+                <br />
+                <span><b>রেফ্রিজারেটর হতে বের করার ৩০ মিনিটের মধ্যে অবশ্যই রক্ত পরিসঞ্চালন করতে হবে। অন্যথায় উক্ত রক্ত ব্লাড ব্যাংকে ফেরত পাঠাবেন। ......কর্তৃপক্ষ।</b></span>
                 <br />
                 <span style={{fontSize:'13px'}}><b>Powered By : Crystal Technology Bangladesh Ltd.</b></span>
               </div>

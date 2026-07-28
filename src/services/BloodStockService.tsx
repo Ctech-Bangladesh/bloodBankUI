@@ -1,79 +1,78 @@
-import axios from "axios";
+import http from "./http";
 import { handleResponse } from "../components/helper/handleResponse";
-const urlPrefix =
-  process.env.REACT_APP_API_URL + "/openmrs/ws/rest/v1/bloodbank/";
+
 class BloodStockService {
   //Blood Stock
   saveBloodStock(data: Object) {
-    return axios.post(urlPrefix + "bloodStockTracing/add", data)
+    return http.post("bloodStockTracing/add", data)
       .then((response) => handleResponse(response));
   }
   getBloodStockList() {
-    return axios.get(urlPrefix + "bloodStockTracing/list")
+    return http.get("bloodStockTracing/list")
       .then((response) => handleResponse(response));
   }
   getApprovedBloodList() {
-    return axios.get(urlPrefix + "bloodStockTracing/approvedList")
+    return http.get("bloodStockTracing/approvedList")
       .then((response) => handleResponse(response));
   }
   getBloodStockById(id: number) {
-    return axios.get(urlPrefix + "bloodStockTracing/" + id)
+    return http.get("bloodStockTracing/" + id)
       .then((response) => handleResponse(response));
   }
   getNextBloodBagId(bloodsource: any) {
-    return axios.get(urlPrefix + "bloodStockTracing/nextBloodBagId/" + bloodsource)
+    return http.get("bloodStockTracing/nextBloodBagId/" + bloodsource)
       .then((response) => handleResponse(response));
   }
   deleteBloodStock(id: number, user: any) {
-    return axios.put(urlPrefix + "bloodStockTracing/delete/" + id + "/by/" + user)
+    return http.put("bloodStockTracing/delete/" + id + "/by/" + user)
       .then((response) => handleResponse(response));
   }
 
   //Report
   saveReport(data: Object) {
-    return axios.post(urlPrefix + "bloodSerologyTest/add", data)
+    return http.post("bloodSerologyTest/add", data)
       .then((response) => handleResponse(response));
   }
   getReportById(id: number) {
-    return axios.get(urlPrefix + "bloodSerologyTest/" + id)
+    return http.get("bloodSerologyTest/" + id)
       .then((response) => handleResponse(response));
   }
   getReportList() {
-    return axios.get(urlPrefix + "bloodSerologyTest/list")
+    return http.get("bloodSerologyTest/list")
       .then((response) => handleResponse(response));
   }
   deleteReport(id: number, user: string) {
-    return axios.put(urlPrefix + "bloodSerologyTest/delete/" + id + "/by/" + user)
+    return http.put("bloodSerologyTest/delete/" + id + "/by/" + user)
       .then((response) => handleResponse(response));
   }
 
   //CompatibilityTest
   getPatientBloodGroupById(id: number) {
-    return axios.get(urlPrefix + "bloodSerologyTestByPatientId/" + id)
+    return http.get("bloodSerologyTestByPatientId/" + id)
       .then((response) => handleResponse(response));
   }
   saveCompatibilityTest(data: Object) {
-    return axios.post(urlPrefix + "bloodCompatibilityTest/add", data)
+    return http.post("bloodCompatibilityTest/add", data)
       .then((response) => handleResponse(response));
   }
   getCompatibilityTestList() {
-    return axios.get(urlPrefix + "bloodCompatibilityTest/list")
+    return http.get("bloodCompatibilityTest/list")
       .then((response) => handleResponse(response));
   }
   getCompatibilityTestById(id: number) {
-    return axios.get(urlPrefix + "bloodCompatibilityTest/" + id)
+    return http.get("bloodCompatibilityTest/" + id)
       .then((response) => handleResponse(response));
   }
   deleteCompatibilityTest(id: number, user: string) {
-    return axios.put(urlPrefix + "bloodCompatibilityTest/delete/" + id + "/by/" + user)
+    return http.put("bloodCompatibilityTest/delete/" + id + "/by/" + user)
       .then((response) => handleResponse(response));
   }
   updateStockStatus(bloodBagId: string, user: string) {
-    return axios.put(urlPrefix + "bloodStockTracing/updateStatus/" + bloodBagId + "/by/" + user)
+    return http.put("bloodStockTracing/updateStatus/" + bloodBagId + "/by/" + user)
       .then((response) => handleResponse(response));
   }
   getStockByBloodBagId(bloodBagId: string) {
-    return axios.get(urlPrefix + "bloodStockTracing/bloodBag/" + bloodBagId)
+    return http.get("bloodStockTracing/bloodBag/" + bloodBagId)
       .then((response) => handleResponse(response));
   }
 }

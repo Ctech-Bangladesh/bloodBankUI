@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import "../../static/scss/print.scss";
 import { history } from "../helper/history";
-import FormBanner from "../../static/images/hospitalBanner.png";
+import PrintBanner from "../layout/PrintBanner";
 // Importing toastify module
 import { toast } from 'react-toastify';
 // Import toastify css file
@@ -40,8 +40,7 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
   }
 
   componentDidMount() {
-    if (authenticationService.currentUserValue !== undefined
-      || authenticationService.currentUserValue !== null) {
+    if (authenticationService.currentUserValue) {
       this.currentUser = authenticationService.currentUserValue
     }
   }
@@ -76,6 +75,8 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
       if (res.status === 226) {
         toast.error(`Blood bag : ${res.data} is not availablle in the stock`, { position: toast.POSITION.BOTTOM_RIGHT });
       }
+    }).catch((err: any) => {
+      toast.error(err?.message || "Failed to update the blood stock status", { position: toast.POSITION.BOTTOM_RIGHT });
     });
   }
   formatDate(data: any) {
@@ -128,17 +129,9 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
         >
           <div className="page-break" />
           <Modal.Body>
-            <div className="formBanner">
-              <img
-                src={FormBanner}
-                width="100%"
-                height="200px"
-                className="Form-Banner header"
-                alt="Banner"
-              />
-            </div>
+            <PrintBanner width="100%" height="200px" className="Form-Banner header" />
             <h4 className="font-weight-bold text-center pb-4">
-              {translate("collection")} ({translate("bagID")}: {modalData.bloodBagId})
+              {translate("collection")} ({translate("bagID")}: <span className="blood-bag-id-value">{modalData.bloodBagId}</span>)
             </h4>
             <p><span className="font-weight-bold">{translate("date")}</span> :{" "}
               {this.formatDate(this.state.currentDateTime)} </p>
@@ -177,10 +170,10 @@ class BloodStockModal extends React.Component<TableModalProps, any> {
               : {modalData.sourceOfBlood}
             </p>
             <p>
-              <span className="font-weight-bold">
+              <span className="blood-bag-id-label">
                 {translate("bloodBagId")}
               </span>{" "}
-              : {modalData.bloodBagId}
+              : <span className="blood-bag-id-value">{modalData.bloodBagId}</span>
             </p>
             <p>
               <span className="font-weight-bold">

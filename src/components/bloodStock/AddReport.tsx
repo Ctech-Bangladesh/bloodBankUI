@@ -46,14 +46,13 @@ class AddReport extends React.Component<CompatibilityProps, any> {
         /*
         for tracking users who is creating or updating
         */
-        if (authenticationService.currentUserValue !== undefined
-            || authenticationService.currentUserValue !== null) {
+        if (authenticationService.currentUserValue) {
             this.currentUser = authenticationService.currentUserValue
         }
 
         const id = sessionStorage.getItem("bloodSerologyId");
         if (id) {
-            this.getSerologyTestById(parseInt(id));
+            this.getSerologyTestById(parseInt(id, 10));
             this.setState({
                 createdBy: null,
                 updatedBy: this.currentUser
@@ -77,9 +76,11 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                 }));
                 this.setState({ showOptions: true, selectOptions: options });
             }
-          
+
+        }).catch(() => {
+            toast.error("Patient search failed", { position: toast.POSITION.BOTTOM_RIGHT });
         });
-     
+
     }
     handleChange(selectedOption: any) {
         if (selectedOption !== null) {
@@ -144,6 +145,8 @@ class AddReport extends React.Component<CompatibilityProps, any> {
             } else {
                 toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
             }
+        }).catch(() => {
+            toast.error("Please enter valid data", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
 
@@ -169,6 +172,8 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                     patientId: res?.data?.patient,
                 });
             }
+        }).catch(() => {
+            toast.error("Failed to load the serology report", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
     render() {
@@ -178,20 +183,9 @@ class AddReport extends React.Component<CompatibilityProps, any> {
             <div>
                 <div className="m-1 p-1">
                     <h2 className="text-info text-center">
-                        {sessionStorage.getItem("bloodSerologyId") ? (
-                            <>
-                                {" "}
-                                <h2 className="text-info text-center">
-                                    Edit Report
-                                </h2>
-                            </>
-                        ) : (
-                            <>
-                                <h2 className="text-info text-center">
-                                    Add Report
-                                </h2>
-                            </>
-                        )}
+                        {sessionStorage.getItem("bloodSerologyId")
+                            ? "Edit Report"
+                            : "Add Report"}
                     </h2>
                     <div className="container">
                         <form className="form" onSubmit={this.submitHandler}>
@@ -310,31 +304,6 @@ class AddReport extends React.Component<CompatibilityProps, any> {
 
                             <div className="row form-group">
                                 <div className="col-4 text-right">
-                                    <label className="font-weight-bold" htmlFor="bloodHivTest">
-                                        {translate("bloodHivTest")}
-
-                                    </label>
-                                </div>
-                                <div className="col-8">
-                                    <select
-                                        className="form-control"
-                                        name="bloodHivTest"
-                                        id="bloodHivTest"
-                                        value={this.state.bloodHivTest}
-
-                                        onChange={this.changeHandler}
-                                    >
-                                        <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-4 text-right">
                                     <label className="font-weight-bold" htmlFor="bloodHbvTest">
                                         {translate("bloodHbvTest")}
 
@@ -350,34 +319,9 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-4 text-right">
-                                    <label className="font-weight-bold" htmlFor="bloodHcvTest">
-                                        {translate("bloodHcvTest")}
-
-                                    </label>
-                                </div>
-                                <div className="col-8">
-                                    <select
-                                        className="form-control"
-                                        name="bloodHcvTest"
-                                        id="bloodHcvTest"
-                                        value={this.state.bloodHcvTest}
-
-                                        onChange={this.changeHandler}
-                                    >
-                                        <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
                                         </option>
                                     </select>
                                 </div>
@@ -400,15 +344,64 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
                                         </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div className="row form-group">
+                                <div className="col-4 text-right">
+                                    <label className="font-weight-bold" htmlFor="bloodHcvTest">
+                                        {translate("bloodHcvTest")}
+
+                                    </label>
+                                </div>
+                                <div className="col-8">
+                                    <select
+                                        className="form-control"
+                                        name="bloodHcvTest"
+                                        id="bloodHcvTest"
+                                        value={this.state.bloodHcvTest}
+
+                                        onChange={this.changeHandler}
+                                    >
+                                        <option value="">{translate("commonSelect")}</option>
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-4 text-right">
+                                    <label className="font-weight-bold" htmlFor="bloodHivTest">
+                                        {translate("bloodHivTest")}
+
+                                    </label>
+                                </div>
+                                <div className="col-8">
+                                    <select
+                                        className="form-control"
+                                        name="bloodHivTest"
+                                        id="bloodHivTest"
+                                        value={this.state.bloodHivTest}
+
+                                        onChange={this.changeHandler}
+                                    >
+                                        <option value="">{translate("commonSelect")}</option>
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("negative")}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            {/* <div className="row form-group">
                                 <div className="col-4 text-right">
                                     <label className="font-weight-bold" htmlFor="bloodMalariaTest">
                                         {translate("bloodMalariaTest")}
@@ -425,13 +418,13 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                         onChange={this.changeHandler}
                                     >
                                         <option value="">{translate("commonSelect")}</option>
-                                        <option value="Reactive">{translate("reactive")}</option>
-                                        <option value="Non-Reactive">
-                                            {translate("Non-Reactive")}
+                                        <option value="Positive">{translate("positive")}</option>
+                                        <option value="Negative">
+                                            {translate("Negative")}
                                         </option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="row pb-5 form-group">
                                 <div className="col-4 text-right"></div>
@@ -445,7 +438,7 @@ class AddReport extends React.Component<CompatibilityProps, any> {
                                                 value={translate("commonUpdate")}
                                             />
                                             <input
-                                                type="cancel"
+                                                type="button"
                                                 className="btn btn-danger m-1"
                                                 onClick={() => {
                                                     history.push("/report/list");

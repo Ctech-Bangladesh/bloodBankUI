@@ -24,7 +24,7 @@ class DonorRejectedList extends React.Component<PhysicalSuitabilityProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            isLoaded: true,
+            isLoaded: false,
             error: null,
             items: [],
             show: false,
@@ -37,8 +37,7 @@ class DonorRejectedList extends React.Component<PhysicalSuitabilityProps, any> {
         /*
       for tracking users who is creating or updating
       */
-        if (authenticationService.currentUserValue !== undefined
-            || authenticationService.currentUserValue !== null) {
+        if (authenticationService.currentUserValue) {
             this.currentUser = authenticationService.currentUserValue
         }
         this.loadTests();
@@ -50,6 +49,8 @@ class DonorRejectedList extends React.Component<PhysicalSuitabilityProps, any> {
                 toast.success("The test is deleted successfully", { position: toast.POSITION.BOTTOM_RIGHT });
                 history.push("/donorPhysicalSuitability/test/list");
             }
+        }).catch((err: any) => {
+            toast.error(err?.message || "Failed to delete the test", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     }
 
@@ -97,7 +98,9 @@ class DonorRejectedList extends React.Component<PhysicalSuitabilityProps, any> {
                     items: allData,
                 });
             })
-            .catch((err: any) => console.log(err));
+            .catch((err: any) => {
+        this.setState({ isLoaded: true, error: err });
+      });
     }
 
     filterData(dataArr: any, keys: any) {
@@ -220,7 +223,7 @@ class DonorRejectedList extends React.Component<PhysicalSuitabilityProps, any> {
                                     );
                                     if (confirmBox) {
                                         const id = record.donorPhysicalSuitabilityId;
-                                        this.deleteSuitabilityTest(parseInt(id));
+                                        this.deleteSuitabilityTest(parseInt(id, 10));
                                     }
                                 }}
                             >

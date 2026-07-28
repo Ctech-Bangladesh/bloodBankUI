@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import DataTable from "react-data-table-component";
-import {faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Link } from "react-router-dom";
 import BloodStockService from "../../services/BloodStockService";
@@ -11,6 +11,7 @@ import { history } from "../helper/history";
 import { toast } from 'react-toastify';
 // Import toastify css file
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../layout/Loader";
 import { authenticationService } from "../../services/AuthenticationService";
 // toast-configuration method, 
 // it is compulsory method.
@@ -25,7 +26,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            isLoaded: true,
+            isLoaded: false,
             error: null,
             items: [],
             show: false,
@@ -40,8 +41,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
         /*
       for tracking users who is creating or updating
       */
-        if (authenticationService.currentUserValue !== undefined
-            || authenticationService.currentUserValue !== null) {
+        if (authenticationService.currentUserValue) {
             this.currentUser = authenticationService.currentUserValue
         }
         this.loadBloodStockList();
@@ -72,6 +72,8 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                         toast.error(err.message, { position: toast.POSITION.BOTTOM_RIGHT });
                     });
             }
+        }).catch((err: any) => {
+            toast.error(err?.message || "Blood bag was not found", { position: toast.POSITION.BOTTOM_RIGHT });
         });
     };
 
@@ -119,7 +121,9 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                     items: dataFinal.reverse(),
                 });
             })
-            .catch((err: any) => console.log(err));
+            .catch((err: any) => {
+        this.setState({ isLoaded: true, error: err });
+      });
     }
 
     search = (rows: any) => {
@@ -224,7 +228,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                                     )
                                     if (confirmBox) {
                                         const id = record.bloodStockTracingId;
-                                        this.deleteBloodStock(parseInt(id));
+                                        this.deleteBloodStock(parseInt(id, 10));
                                     }
                                 }}
                             >
@@ -242,7 +246,7 @@ class ApprovedBloodList extends React.Component<BloodStockProps, any> {
                 </div>
             );
         } else if (!isLoaded) {
-            return <div className="text-center font-weight-bold">Loading...</div>;
+            return <Loader size="large" />;
         } else {
             return (
                 <div className="container-fluid m-1">
